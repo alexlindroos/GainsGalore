@@ -3,6 +3,7 @@ package com.example.iosdev.sensorproject;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -29,10 +30,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button resetSteps;
     boolean flop, isOn;
     private static final String stepsTaken = "Steps taken: ";
-
-
     ProgressBar mprogressBar;
-
+    Button btnDiscounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         tv = (TextView) findViewById(R.id.tv);
         resetSteps = (Button) findViewById(R.id.ResetSteps);
+        btnDiscounts = (Button) findViewById(R.id.btnDiscounts);
 
 
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -110,6 +110,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 currentSteps = 0;
                 tv.setText(stepsTaken + 0);
                 mprogressBar.setProgress(0);
+            }
+        });
+
+        btnDiscounts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Discounts.class);
+                startActivity(intent);
             }
         });
     }

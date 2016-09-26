@@ -44,4 +44,10 @@ android:orientation="vertical">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnStart" />
+
+    <Button
+        android:text="Discounts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDiscounts" />
 </LinearLayout>
