@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SensorProject</string>
+    <string name="btnDiscounts">Discounts</string>
+    <string name="btnStart">Start Activity</string>
+    <string name="btnStatistics">Statistics</string>
+    <string name="stats">Statistics</string>
 </resources>

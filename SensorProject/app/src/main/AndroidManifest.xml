@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Discounts"></activity>
+        <activity android:name=".Statistics"></activity>
     </application>
 
 </manifest>

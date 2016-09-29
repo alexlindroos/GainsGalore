@@ -32,22 +32,42 @@ android:orientation="vertical">
         android:focusable="false"
         android:layout_gravity="center_horizontal" />
 
-    <Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="Reset"
-    android:id="@+id/ResetSteps"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:text="Start Activity"
+        <Button
+            android:text="@string/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnStart"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="@string/btnStatistics"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnStatistics"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="147dp" />
+
+        <Button
+            android:text="@string/btnDiscounts"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDiscounts"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/btnStatistics" />
+
+        <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnStart" />
+        android:layout_gravity="center"
+        android:text="Reset"
+        android:id="@+id/ResetSteps"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
-    <Button
-        android:text="Discounts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnDiscounts" />
 </LinearLayout>

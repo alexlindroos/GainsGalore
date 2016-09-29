@@ -25,13 +25,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sm;
     private Sensor stepCounter;
     TextView tv;
-    private int startingSteps;
-    private int currentSteps;
-    Button resetSteps;
+    public int startingSteps;
+    public int currentSteps;
     boolean flop, isOn;
     private static final String stepsTaken = "Steps taken: ";
     ProgressBar mprogressBar;
-    Button btnDiscounts;
+    Button btnDiscounts, btnStatistics, resetSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv = (TextView) findViewById(R.id.tv);
         resetSteps = (Button) findViewById(R.id.ResetSteps);
         btnDiscounts = (Button) findViewById(R.id.btnDiscounts);
+        btnStatistics = (Button) findViewById(R.id.btnStatistics);
 
 
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         @Override
         public void onSensorChanged(SensorEvent event) {
             this.currentSteps = (int) event.values[0];
+
             float myEventValues = event.values[0];
             int myInteger = (int) myEventValues;
             mprogressBar.setProgress(myInteger);
@@ -117,6 +118,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Discounts.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStatistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Statistics.class);
                 startActivity(intent);
             }
         });
