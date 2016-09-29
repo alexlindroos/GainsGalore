@@ -27,8 +27,8 @@ public class Statistics extends AppCompatActivity implements Runnable {
     public void run() {
 
         MainActivity ma = new MainActivity();
-
+/*
         steps.setText(ma.currentSteps);
-        distance.setText(ma.currentSteps+"meters");
+        distance.setText(ma.currentSteps+"meters");*/
     }
 }
