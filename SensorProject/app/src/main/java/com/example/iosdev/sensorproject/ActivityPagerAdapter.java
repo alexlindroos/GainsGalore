@@ -15,7 +15,11 @@ public class ActivityPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return StepFragment.newInstance(position + 1);
+        if (position == 0) {
+            return StepFragment.newInstance(position + 1);
+        }else {
+            return SpeedFragment.newInstance(position + 1);
+        }
     }
 
     @Override
