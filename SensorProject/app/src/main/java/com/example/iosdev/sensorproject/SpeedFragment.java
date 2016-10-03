@@ -1,10 +1,13 @@
 package com.example.iosdev.sensorproject;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,14 +22,15 @@ import static com.example.iosdev.sensorproject.R.id.tv;
 import static com.example.iosdev.sensorproject.StepFragment.ARG_PAGE_NUMBER;
 
 
-/**
+/*
+*
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link SpeedFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link SpeedFragment#newInstance} factory method to
  * create an instance of this fragment.
- */
+*/
 public class SpeedFragment extends Fragment {
 
     public TextView speedtv;
@@ -34,11 +38,18 @@ public class SpeedFragment extends Fragment {
     private LocationListener ll;
     double mySpeed, maxSpeed;
     private final String Speed = null;
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    private static final int LOCATION_REQUEST=9001;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,11 +62,12 @@ public class SpeedFragment extends Fragment {
         Log.i(Speed, "working1 ");
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         ll = new SpeedoActionListener();
-        try {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-        } catch (SecurityException e) {
-            System.out.println("you fucked up");
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
         }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+
         return rootView;
     }
     public SpeedFragment() {
