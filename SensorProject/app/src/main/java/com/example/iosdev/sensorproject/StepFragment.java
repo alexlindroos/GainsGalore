@@ -43,7 +43,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     static String ARG_PAGE_NUMBER = "page_number";
     ProgressBar mprogressBar;
     public TextView txt;
-    public Button btnDiscounts, btnStatistics, resetButton;
+    public Button btnDiscounts, btnStatistics, resetButton, btnRewards;
 
 
     @Override
@@ -69,11 +69,13 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         stepCounter = sm.getSensorList(Sensor.TYPE_STEP_COUNTER).get(0);
         btnDiscounts = (Button) rootView.findViewById(R.id.btnDiscounts);
         btnStatistics = (Button) rootView.findViewById(R.id.btnStatistics);
+        btnRewards = (Button) rootView.findViewById(R.id.btnRewards);
 
         txt.setText(stepsTaken + 0);
         resetButton.setOnClickListener(this);
         btnDiscounts.setOnClickListener(this);
         btnStatistics.setOnClickListener(this);
+        btnRewards.setOnClickListener(this);
 
 
         mprogressBar = (ProgressBar) rootView.findViewById(R.id.circular_progress_bar);
@@ -154,18 +156,21 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     @Override
     public void onClick(View v) {
         int id = v.getId();
-            if (id == R.id.ResetSteps) {
-                startingSteps = 0;
-                currentSteps = 0;
-                txt.setText(stepsTaken + 0);
-                mprogressBar.setProgress(0);
-            }else if (id == R.id.btnDiscounts) {
-                Intent discIntent = new Intent(StepFragment.this.getActivity(), Discounts.class);
-                startActivity(discIntent);
-                System.out.println("asdasd");
-            }else if (id == R.id.btnStatistics) {
-                Intent statIntent = new Intent(StepFragment.this.getActivity(), Statistics.class);
-                startActivity(statIntent);
+        if (id == R.id.ResetSteps) {
+            startingSteps = 0;
+            currentSteps = 0;
+            txt.setText(stepsTaken + 0);
+            mprogressBar.setProgress(0);
+        }else if (id == R.id.btnDiscounts) {
+            Intent discIntent = new Intent(StepFragment.this.getActivity(), Discounts.class);
+            startActivity(discIntent);
+            System.out.println("asdasd");
+        }else if (id == R.id.btnStatistics) {
+            Intent statIntent = new Intent(StepFragment.this.getActivity(), Statistics.class);
+            startActivity(statIntent);
+        } else if (id == R.id.btnRewards) {
+            Intent rewardsIntent = new Intent(StepFragment.this.getActivity(), RewardListActivity.class);
+            startActivity(rewardsIntent);
         }
 
     }

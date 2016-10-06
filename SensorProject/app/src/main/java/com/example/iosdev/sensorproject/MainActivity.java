@@ -7,11 +7,16 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    String _id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get intent values
+        _id = getIntent().getStringExtra(RewardListActivity.ID_EXTRA);
+        System.out.println("ID " + _id);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
