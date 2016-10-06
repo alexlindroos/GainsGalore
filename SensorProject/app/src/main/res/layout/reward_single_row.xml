@@ -8,22 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_reward_id"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_reward_description"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_goal" />
+        android:id="@+id/textView_goal"
+        android:textColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_completion"/>
+        android:id="@+id/textView_completion"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
