@@ -159,7 +159,7 @@ public class HeartRateSensorFragment extends Fragment {
                 trough = 250;                                // set T default
                 lastBeatTime = sampleCounter;           // bring the lastBeatTime up to date
                 firstBeat = true;                       // set these to avoid noise
-                secondBeat = false;                     // when we get the heartbeat back
+                secondBeat = false;                     // when we get the heartbeat backf
             }
 
             getActivity().runOnUiThread(

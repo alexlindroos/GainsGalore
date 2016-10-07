@@ -37,13 +37,12 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     private Sensor stepCounter;
     int startingSteps;
     int currentSteps;
-    Button resetSteps;
     boolean flop, isOn;
     String stepsTaken = "Steps: ";
     static String ARG_PAGE_NUMBER = "page_number";
     ProgressBar mprogressBar;
     public TextView txt;
-    public Button btnDiscounts, btnStatistics, resetButton, btnRewards;
+    public Button btnDiscounts, btnStatistics, btnRewards;
 
 
     @Override
@@ -62,9 +61,8 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         currentSteps = 0;
         startingSteps = 0;
 
-        //mprogressBar.setMax(100);
+
         txt = (TextView) rootView.findViewById(R.id.tv);
-        resetButton = (Button) rootView.findViewById(R.id.ResetSteps);
         sm = (SensorManager) this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
         stepCounter = sm.getSensorList(Sensor.TYPE_STEP_COUNTER).get(0);
         btnDiscounts = (Button) rootView.findViewById(R.id.btnDiscounts);
@@ -72,7 +70,6 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         btnRewards = (Button) rootView.findViewById(R.id.btnRewards);
 
         txt.setText(stepsTaken + 0);
-        resetButton.setOnClickListener(this);
         btnDiscounts.setOnClickListener(this);
         btnStatistics.setOnClickListener(this);
         btnRewards.setOnClickListener(this);
@@ -147,26 +144,17 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-       /* tv.setText("Accuracy is now " +
-                (i == sm.SENSOR_STATUS_ACCURACY_HIGH ? "HIGH" :
-                        (i == sm.SENSOR_STATUS_ACCURACY_MEDIUM ? "MEDIUM" :
-                                (i == sm.SENSOR_STATUS_ACCURACY_LOW ? "LOW" : "UNRELIABLE"))));*/
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.ResetSteps) {
-            startingSteps = 0;
-            currentSteps = 0;
-            txt.setText(stepsTaken + 0);
-            mprogressBar.setProgress(0);
-        }else if (id == R.id.btnDiscounts) {
+      if (id == R.id.btnDiscounts) {
             Intent discIntent = new Intent(StepFragment.this.getActivity(), Discounts.class);
             startActivity(discIntent);
-            System.out.println("asdasd");
         }else if (id == R.id.btnStatistics) {
             Intent statIntent = new Intent(StepFragment.this.getActivity(), Statistics.class);
+            statIntent.putExtra("cSteps",currentSteps);
             startActivity(statIntent);
         } else if (id == R.id.btnRewards) {
             Intent rewardsIntent = new Intent(StepFragment.this.getActivity(), RewardListActivity.class);
@@ -174,6 +162,14 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         }
 
     }
+
+
+   /* if (id == R.id.ResetSteps) {
+        startingSteps = 0;
+        currentSteps = 0;
+        txt.setText(stepsTaken + 0);
+        mprogressBar.setProgress(0);
+    */
 
     /**
      * This interface must be implemented by activities that contain this

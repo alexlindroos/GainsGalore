@@ -37,6 +37,7 @@ import com.mbientlab.metawear.module.Debug;
 
 import java.util.UUID;
 
+
 /**
  * Created by iosdev on 27.9.2016.
  */
@@ -44,19 +45,21 @@ import java.util.UUID;
 public class Statistics extends AppCompatActivity implements ServiceConnection,
         BleScannerFragment.ScannerCommunicationBus, MWDeviceConfirmFragment.DeviceConfirmCallback {
 
-        //TextView steps,distance,hrate;
         private MetaWearBleService.LocalBinder mwBinder = null;
-    private BluetoothDevice bluetoothDevice;
-    private boolean btDeviceSelected;
-    private MetaWearBoard mwBoard;
-    private MWScannerFragment mwScannerFragment;
-    private Menu menu;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private HeartRateSensorFragment heartRateSensorFragment;
-    private boolean reconnecting = false;
-    private final String HEART_RATE_SENSOR_FRAGMENT_KEY = "heart_rate_sensor_key";
-    private final String MAC_ADDRESS = "MAC_ADDRESS";
+        private BluetoothDevice bluetoothDevice;
+        private boolean btDeviceSelected;
+        private MetaWearBoard mwBoard;
+        private MWScannerFragment mwScannerFragment;
+        private Menu menu;
+        private SharedPreferences sharedPreferences;
+        private SharedPreferences.Editor editor;
+        private HeartRateSensorFragment heartRateSensorFragment;
+        private boolean reconnecting = false;
+        private final String HEART_RATE_SENSOR_FRAGMENT_KEY = "heart_rate_sensor_key";
+        private final String MAC_ADDRESS = "MAC_ADDRESS";
+        public TextView step,distance;
+        double conversion = 0.762;
+        double d;
 
 
         @Override
@@ -64,6 +67,18 @@ public class Statistics extends AppCompatActivity implements ServiceConnection,
             super.onCreate(savedInstanceState);
             setContentView(R.layout.testheartrate);
 
+            //Getting the intent extras and step values from stepfragment
+            Intent intent = getIntent();
+            int value = intent.getIntExtra("cSteps",0);
+
+            step = (TextView) findViewById(R.id.steps);
+            distance = (TextView) findViewById(R.id.distance);
+
+            step.setText(Integer.toString(value));
+
+            //Converting steps to meters
+            d = value * conversion;
+            distance.setText(Double.toString(d));
 
             sharedPreferences = getApplicationContext().getSharedPreferences("com.mbientlab.heartRateMonitor", 0); // 0 - for private mode
             editor = sharedPreferences.edit();
