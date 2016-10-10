@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +13,7 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 
 /*
@@ -35,8 +39,10 @@ import android.widget.Toast;
 public class StepFragment extends Fragment implements SensorEventListener, View.OnClickListener {
     private SensorManager sm;
     private Sensor stepCounter;
+    private Sensor stepDetector;
     int startingSteps;
     int currentSteps;
+    int savedStep;
     boolean flop, isOn;
     String stepsTaken = "Steps: ";
     static String ARG_PAGE_NUMBER = "page_number";
@@ -64,12 +70,14 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
         txt = (TextView) rootView.findViewById(R.id.tv);
         sm = (SensorManager) this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
-        stepCounter = sm.getSensorList(Sensor.TYPE_STEP_COUNTER).get(0);
+        //stepCounter = sm.getSensorList(Sensor.TYPE_STEP_COUNTER).get(0);
+        stepDetector = sm.getSensorList(Sensor.TYPE_STEP_DETECTOR).get(0);
+
         btnDiscounts = (Button) rootView.findViewById(R.id.btnDiscounts);
         btnStatistics = (Button) rootView.findViewById(R.id.btnStatistics);
         btnRewards = (Button) rootView.findViewById(R.id.btnRewards);
 
-        txt.setText(stepsTaken + 0);
+        txt.setText(stepsTaken + currentSteps);
         btnDiscounts.setOnClickListener(this);
         btnStatistics.setOnClickListener(this);
         btnRewards.setOnClickListener(this);
@@ -99,8 +107,6 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     }
 
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -114,25 +120,60 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     @Override
     public void onResume() {
         super.onResume();
-        sm.registerListener(this, stepCounter, SensorManager.SENSOR_DELAY_FASTEST);
+        //sm.registerListener(this, stepCounter, SensorManager.SENSOR_DELAY_FASTEST);
+        sm.registerListener(this, stepDetector, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        sm.unregisterListener(this);
+        //sm.unregisterListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("Steps", currentSteps);
+            editor.apply();
+        } catch (NullPointerException e) {
+            Log.e(TAG, "error saving: are you testing?" +e.getMessage());
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        try {
+            SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("Steps", currentSteps);
+            editor.apply();
+        } catch (NullPointerException e) {
+            Log.e(TAG, "error saving: are you testing?" +e.getMessage());
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
+        int step = prefs.getInt("Steps", 0);
+        currentSteps = step;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        this.currentSteps = (int) event.values[0];
-        float myEventValues = event.values[0];
-        int myInteger = (int) myEventValues;
-        mprogressBar.setProgress(myInteger);
-        txt.setText(Integer.toString(currentSteps));
-        flop = !flop;
 
-        if (currentSteps >= mprogressBar.getMax()){
+        if (currentSteps < mprogressBar.getMax()) {
+        currentSteps += event.values.length;
+        txt.setText(stepsTaken + Integer.toString(currentSteps) + " / " + mprogressBar.getMax());
+        mprogressBar.setProgress(currentSteps);
+
+        }else if (currentSteps >= mprogressBar.getMax()) {
+
             Context context = getActivity().getApplicationContext();
             CharSequence text = "Congratulations! Look for your reward in the discount section";
             int duration = Toast.LENGTH_SHORT;
@@ -144,7 +185,35 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
             currentSteps = 0;
             txt.setText(stepsTaken + 0);
             mprogressBar.setProgress(0);
+            event.values[0] = 0;
         }
+
+        /*if (currentSteps < mprogressBar.getMax()) {
+            this.currentSteps = (int) event.values[0];
+            float myEventValues = event.values[0];
+            int myInteger = (int) myEventValues;
+            mprogressBar.setProgress(myInteger);
+            txt.setText(Integer.toString(currentSteps));
+            flop = !flop;
+
+        }else{     //if (currentSteps >= mprogressBar.getMax())
+
+            Context context = getActivity().getApplicationContext();
+            CharSequence text = "Congratulations! Look for your reward in the discount section";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            startingSteps = 0;
+            currentSteps = 0;
+            txt.setText(stepsTaken + 0);
+            mprogressBar.setProgress(0);
+            event.values[0] = 0;
+        } */
+
+
+
     }
 
     @Override
@@ -174,12 +243,6 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     }
 
 
-   /* if (id == R.id.ResetSteps) {
-        startingSteps = 0;
-        currentSteps = 0;
-        txt.setText(stepsTaken + 0);
-        mprogressBar.setProgress(0);
-    */
 
     /**
      * This interface must be implemented by activities that contain this

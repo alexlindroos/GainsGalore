@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Steps"
         android:id="@+id/tv"
-        android:textSize="40dp"
+        android:textSize="30dp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal|center"
         android:textColor="@color/white"
@@ -72,7 +72,6 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/btnRewards"
         android:drawableLeft="@drawable/ic_directions_walk_black_24dp"
-
         style="@style/Widget.AppCompat.Button.Colored"/>
 
 

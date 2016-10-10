@@ -18,8 +18,8 @@
     android:layout_height="wrap_content"
     app:tabMode="scrollable"
     app:tabGravity="center"
-    app:tabSelectedTextColor="@color/white"
-    app:tabTextColor="@color/green200" />
+    app:tabSelectedTextColor="@color/colorPrimary"
+    app:tabTextColor="@color/white" />
 
 
     <android.support.v4.view.ViewPager
