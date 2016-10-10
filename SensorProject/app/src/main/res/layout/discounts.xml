@@ -3,35 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@color/black">
+    android:background="@color/gray">
 
-    <TextView
-        android:text="PLACEHOLDER FOR DISCOUNTS THAT ARE GOING TO BE IN LISTVIEW"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textColor="@color/white" />
-
-    <TextView
-        android:text="DISCOUNTS:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textColor="@color/white" />
-
-    <TextView
-        android:text="FREE COFFEE FROM METROPOLIA UNICAFE - A1312"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_weight="0.08"
-        android:textColor="@color/white"/>
-
-    <TextView
-        android:text="50% off from Adidas jackets in Intersport - AD010201"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_weight="0.08"
-        android:textColor="@color/white"/>
+        android:layout_height="match_parent"
+        android:id="@+id/listview_earned_rewards" />
 </LinearLayout>

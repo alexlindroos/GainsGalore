@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.iosdev.sensorproject.MainActivity"
     android:orientation="vertical"
-    android:background="@color/black">
+    android:background="@color/gray">
 
 <android.support.design.widget.TabLayout
     android:id="@+id/sliding_tabs"
@@ -18,8 +18,8 @@
     android:layout_height="wrap_content"
     app:tabMode="scrollable"
     app:tabGravity="center"
-    app:tabSelectedTextColor="@color/cblue"
-    app:tabTextColor="@color/white" />
+    app:tabSelectedTextColor="@color/white"
+    app:tabTextColor="@color/green200" />
 
 
     <android.support.v4.view.ViewPager
@@ -27,6 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:background="@android:color/black" />
+        android:background="@color/gray" />
 
 </LinearLayout>

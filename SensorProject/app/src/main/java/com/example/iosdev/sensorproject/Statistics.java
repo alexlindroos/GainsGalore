@@ -182,6 +182,7 @@ public class Statistics extends AppCompatActivity implements ServiceConnection,
     ///< Don't need this callback method but we must implement it
     @Override
     public void onServiceDisconnected(ComponentName name) {
+        mwBoard.disconnect();
     }
 
 

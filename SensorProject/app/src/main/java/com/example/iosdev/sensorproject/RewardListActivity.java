@@ -46,6 +46,7 @@ public class RewardListActivity extends AppCompatActivity{
                 // Create new intent
                 Intent intent = new Intent(RewardListActivity.this, MainActivity.class);
                 intent.putExtra(ID_EXTRA, String.valueOf(id));
+                System.out.println(id);
                 startActivity(intent);
                 /*StringBuffer buffer = new StringBuffer();
 

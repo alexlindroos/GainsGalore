@@ -139,6 +139,11 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+
+            startingSteps = 0;
+            currentSteps = 0;
+            txt.setText(stepsTaken + 0);
+            mprogressBar.setProgress(0);
         }
     }
 
@@ -161,6 +166,11 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
             startActivity(rewardsIntent);
         }
 
+    }
+
+    public void updateProgressbar(){
+        int goal = 0;
+        mprogressBar.setMax(goal);
     }
 
 
