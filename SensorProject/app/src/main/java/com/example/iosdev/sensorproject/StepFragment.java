@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -40,9 +41,6 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     private SensorManager sm;
     private Sensor stepCounter;
     private Sensor stepDetector;
-    int startingSteps;
-    int currentSteps;
-    int savedStep;
     boolean flop, isOn;
     String stepsTaken = "Steps: ";
     static String ARG_PAGE_NUMBER = "page_number";
@@ -50,10 +48,39 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     public TextView txt;
     public Button btnDiscounts, btnStatistics, btnRewards;
 
+    private int currentSteps;
+    private int goal;
+    private boolean isCompleted;
+    private DatabaseHelper db;
+    private String _id = MainActivity.ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        db = new DatabaseHelper(getContext());
+        Cursor cursor = db.getDataById(MainActivity.ID);
+
+        StringBuffer buffer = new StringBuffer();
+
+        if (cursor.moveToFirst()) {
+            currentSteps = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_4));
+            goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_3));
+            isCompleted = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_6)) != 0;
+
+            buffer.append("id: " + cursor.getString(0) + "\n");
+            buffer.append("reward: " + cursor.getString(1) + "\n");
+            buffer.append("goal: " + goal + "\n");
+            buffer.append("current_step: " + currentSteps + "\n");
+            buffer.append("speed: " + cursor.getInt(4) + "\n");
+            buffer.append("isCompleted: " + isCompleted + "\n\n");
+
+
+        } else {
+            db.showMessage("Error: ", "No data", getContext());
+        }
+
+        db.showMessage("This is for debug only: ", buffer.toString(), getContext());
     }
 
 
@@ -64,8 +91,8 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         View rootView = inflater.inflate(R.layout.fragment_step, container, false);
         flop = false;
         isOn = false;
-        currentSteps = 0;
-        startingSteps = 0;
+        //currentSteps = 0;
+        //startingSteps = 0;
 
 
         txt = (TextView) rootView.findViewById(R.id.tv);
@@ -85,9 +112,11 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
         mprogressBar = (ProgressBar) rootView.findViewById(R.id.circular_progress_bar);
         ObjectAnimator anim = ObjectAnimator.ofInt(mprogressBar, "progress", 0, 100);
+        //mprogressBar.setMax(goal);
         anim.setDuration(150);
         anim.setInterpolator(new DecelerateInterpolator());
         anim.start();
+
         return rootView;
     }
 
@@ -133,60 +162,77 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     @Override
     public void onStop() {
         super.onStop();
-        try {
+        /*try {
             SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("Steps", currentSteps);
             editor.apply();
         } catch (NullPointerException e) {
             Log.e(TAG, "error saving: are you testing?" +e.getMessage());
-        }
+        }*/
+        db.updateCurrentStep(MainActivity.ID, currentSteps);
+
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        try {
+        /*try {
             SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("Steps", currentSteps);
             editor.apply();
         } catch (NullPointerException e) {
             Log.e(TAG, "error saving: are you testing?" +e.getMessage());
-        }
+        }*/
+        db.updateCurrentStep(MainActivity.ID, currentSteps);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
-        int step = prefs.getInt("Steps", 0);
-        currentSteps = step;
+        //SharedPreferences prefs= getActivity().getPreferences(Context.MODE_PRIVATE);
+        //int step = prefs.getInt("Steps", 0);
+        //currentSteps = step;
+        currentSteps = db.getCurrentStep(MainActivity.ID);
+        mprogressBar.setMax(goal);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (currentSteps < mprogressBar.getMax()) {
-        currentSteps += event.values.length;
-        txt.setText(stepsTaken + Integer.toString(currentSteps) + " / " + mprogressBar.getMax());
-        mprogressBar.setProgress(currentSteps);
+        if (currentSteps < goal) {
+            currentSteps += event.values.length;
+            txt.setText(stepsTaken + Integer.toString(currentSteps) + " / " + mprogressBar.getMax());
+            mprogressBar.setProgress(currentSteps);
+            // Update database
+            db.updateCurrentStep(MainActivity.ID, currentSteps);
+            Log.d(TAG, "onSensorChanged: IF " + currentSteps + " / " + goal + "  " + MainActivity.ID);
 
-        }else if (currentSteps >= mprogressBar.getMax()) {
+        } else if (currentSteps >= goal){
+
+            isCompleted = true;
+            db.updateIsCompleted(MainActivity.ID, isCompleted);
+
+            Log.d(TAG, "onSensorChanged: ELSE " + currentSteps + " / " + goal + "  " + MainActivity.ID);
 
             Context context = getActivity().getApplicationContext();
-            CharSequence text = "Congratulations! Look for your reward in the discount section";
+            CharSequence text = "Congratulations!  " + isCompleted + "  " + currentSteps + "  " + goal;
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-            startingSteps = 0;
-            currentSteps = 0;
+
+            /*currentSteps = 0;
             txt.setText(stepsTaken + 0);
             mprogressBar.setProgress(0);
-            event.values[0] = 0;
+            event.values[0] = 0;*/
         }
+
+
+
+
 
         /*if (currentSteps < mprogressBar.getMax()) {
             this.currentSteps = (int) event.values[0];
@@ -237,11 +283,11 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
     }
 
-    public void updateProgressbar(){
+    /*public void updateProgressbar(){
         int goal = 0;
         mprogressBar.setMax(goal);
     }
-
+    */
 
 
     /**

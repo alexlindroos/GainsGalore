@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,8 +31,8 @@ public class RewardListActivity extends AppCompatActivity{
 
     private void populateRewardListView () {
         Cursor cursor = mydb.getAllData();
-        String[] fromFieldNames = new String[] {DatabaseHelper.COL_1, DatabaseHelper.COL_2, DatabaseHelper.COL_3, DatabaseHelper.COL_4};
-        int[] toViewsIds = new int[] {R.id.textView_reward_id, R.id.textView_reward_description, R.id.textView_goal, R.id.textView_completion};
+        String[] fromFieldNames = new String[] {DatabaseHelper.COL_2, DatabaseHelper.COL_3, DatabaseHelper.COL_4};
+        int[] toViewsIds = new int[] {R.id.textView_reward_description, R.id.textView_goal, R.id.textView_completion};
         SimpleCursorAdapter myCursorAdapter;
         myCursorAdapter = new SimpleCursorAdapter(getBaseContext(), R.layout.reward_single_row, cursor, fromFieldNames, toViewsIds, 0);
         listView_rewards.setAdapter(myCursorAdapter);
@@ -43,11 +44,15 @@ public class RewardListActivity extends AppCompatActivity{
             public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
+                MainActivity.ID = String.valueOf(id);
+                Log.d("RewardListActivity", "onItemClick: " + id);
                 // Create new intent
                 Intent intent = new Intent(RewardListActivity.this, MainActivity.class);
                 intent.putExtra(ID_EXTRA, String.valueOf(id));
                 System.out.println(id);
                 startActivity(intent);
+
+
                 /*StringBuffer buffer = new StringBuffer();
 
                     buffer.append("id: " + cursor.getString(0) + "\n");
@@ -58,6 +63,7 @@ public class RewardListActivity extends AppCompatActivity{
 
                 // Show all data
                 showMessage("Data", buffer.toString());*/
+                //viewAll();
             }
         });
     }

@@ -4,12 +4,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
-    String _id;
+    protected static String ID = "1";
+    private String _id;
 
 
     @Override
@@ -19,7 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Get intent values
         _id = getIntent().getStringExtra(RewardListActivity.ID_EXTRA);
-        System.out.println("ID " + _id);
+        Log.d("Intent on main activity", "onCreate: " + _id);
+        if (MainActivity.ID == null) {
+            MainActivity.ID = this._id;
+        }
+        Log.d("MainActivity", "onCreate: " +  MainActivity.ID);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
