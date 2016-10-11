@@ -17,11 +17,7 @@ public class Discounts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discounts);
 
-        DiscountCreator dc = new DiscountCreator();
 
-        dc.makeDiscounts();
-
-        System.out.println(dc.discounts);
 
     }
 

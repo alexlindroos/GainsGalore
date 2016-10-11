@@ -9,18 +9,35 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView_reward_description"
         android:layout_marginRight="3dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/goal_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal: "
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_goal"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/completion_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completion: "
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_completion"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        />
 
 </LinearLayout>

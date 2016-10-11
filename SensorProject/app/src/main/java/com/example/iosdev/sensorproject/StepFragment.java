@@ -111,7 +111,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
 
         mprogressBar = (ProgressBar) rootView.findViewById(R.id.circular_progress_bar);
-        ObjectAnimator anim = ObjectAnimator.ofInt(mprogressBar, "progress", 0, 100);
+        ObjectAnimator anim = ObjectAnimator.ofInt(mprogressBar, "progress", 0, goal);
         //mprogressBar.setMax(goal);
         anim.setDuration(150);
         anim.setInterpolator(new DecelerateInterpolator());
@@ -216,7 +216,8 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
             Log.d(TAG, "onSensorChanged: ELSE " + currentSteps + " / " + goal + "  " + MainActivity.ID);
 
-            Context context = getActivity().getApplicationContext();
+
+           /* Context context = getActivity().getApplicationContext();
             CharSequence text = "Congratulations!  " + isCompleted + "  " + currentSteps + "  " + goal;
             int duration = Toast.LENGTH_SHORT;
 
@@ -282,13 +283,6 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         }
 
     }
-
-    /*public void updateProgressbar(){
-        int goal = 0;
-        mprogressBar.setMax(goal);
-    }
-    */
-
 
     /**
      * This interface must be implemented by activities that contain this

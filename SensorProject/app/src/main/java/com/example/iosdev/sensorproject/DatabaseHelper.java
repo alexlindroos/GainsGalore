@@ -34,16 +34,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_5 + " INTEGER, "
                 + COL_6 + " BOOLEAN)");
         ContentValues contentValues = new ContentValues();
-        this.prePopulateDatabase("1km - Free coffee from the Metropolia Unicafe - MUC123", 30, 0, 0, db, contentValues);
-        this.prePopulateDatabase("2km - 50% off from Luhta winter jackets from the Intersport - IL912", 1000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("3km - 25% off from any food you order in Amarillo - A3139", 1500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("4km - Helsingin Sanomat for 6 months only 20,00€ - HS0900", 2000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("4km - Mens haircut only 12€ in Style Workshop Kruununhaka - SWK2922", 2500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("2km - Free car wash in Koskelan Autopesu - KAP8889", 3000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("1km - Chefs menu 10€ in Töölön Sävel - TS1231", 3500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("3km - Free Gym membership in Fitness 24/7 - F1223", 4000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("4km - Exit room game for 1-6 people only 9€ in Exit Room Helsinki - ER5582", 4500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("4km -Free bucket from Tokmanni - FB9942", 5000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free coffee from the Metropolia Unicafe - MUC123", 30, 0, 0, db, contentValues);
+        this.prePopulateDatabase("50% off from Luhta winter jackets from the Intersport - IL912", 1000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("25% off from any food you order in Amarillo - A3139", 1500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Helsingin Sanomat for 6 months only 20,00€ - HS0900", 2000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Mens haircut only 12€ in Style Workshop Kruununhaka - SWK2922", 2500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free car wash in Koskelan Autopesu - KAP8889", 3000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Chefs menu 10€ in Töölön Sävel - TS1231", 3500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free Gym membership in Fitness 24/7 - F1223", 4000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Exit room game for 1-6 people only 9€ in Exit Room Helsinki - ER5582", 4500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free bucket from Tokmanni - FB9942", 5000, 0, 0, db, contentValues);
     }
 
     @Override
