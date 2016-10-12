@@ -61,7 +61,7 @@
         android:textAlignment="center"
         android:layout_gravity="center_horizontal|center"
         android:textColor="@color/white"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         android:textSize="20dp" />
 
     <Button
@@ -75,15 +75,16 @@
         style="@style/Widget.AppCompat.Button.Colored"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="Reward"
         android:id="@+id/rewardview"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal|center"
         android:textColor="@color/white"
         android:layout_weight="0.51"
-        android:layout_marginBottom="90dp" />
+        android:layout_marginBottom="90dp"
+        android:layout_width="200dp"
+        android:textSize="20dp"
+        android:layout_height="70dp" />
 
 
 </FrameLayout>
