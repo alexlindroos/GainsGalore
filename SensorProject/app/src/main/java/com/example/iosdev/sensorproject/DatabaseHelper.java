@@ -14,12 +14,13 @@ import android.support.v7.app.AlertDialog;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "reward_database";
     public static final String TABLE_NAME = "reward_table";
-    public static final String COL_1 = "_id";
-    public static final String COL_2 = "reward";
-    public static final String COL_3 = "goal";
-    public static final String COL_4 = "current_step";
-    public static final String COL_5 = "speed";
-    public static final String COL_6 = "isCompleted";
+    public static final String COL_ID = "_id";
+    public static final String COL_REWARD = "reward";
+    public static final String COL_GOAL = "goal";
+    public static final String COL_CURRENT_STEP = "current_step";
+    public static final String COL_SPEED = "speed";
+    public static final String COL_IS_COMPLETED = "isCompleted";
+    public static final String COL_REWARD_CODE = "reward_code";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -27,23 +28,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COL_1 +" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_2 +" TEXT, "
-                + COL_3 + " INTEGER, "
-                + COL_4 + " INTEGER, "
-                + COL_5 + " DOUBLE, "
-                + COL_6 + " BOOLEAN)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " ("
+                + COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_REWARD +" TEXT, "
+                + COL_GOAL + " INTEGER, "
+                + COL_CURRENT_STEP + " INTEGER, "
+                + COL_SPEED + " DOUBLE, "
+                + COL_IS_COMPLETED + " INTEGER, "
+                + COL_REWARD_CODE + " TEXT)");
+
         ContentValues contentValues = new ContentValues();
-        this.prePopulateDatabase("Free coffee from the Metropolia Unicafe - MUC123", 30, 0, 0, db, contentValues);
-        this.prePopulateDatabase("50% off from Luhta winter jackets from the Intersport - IL912", 1000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("25% off from any food you order in Amarillo - A3139", 1500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Helsingin Sanomat for 6 months only 20,00€ - HS0900", 2000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Mens haircut only 12€ in Style Workshop Kruununhaka - SWK2922", 2500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Free car wash in Espoon Starwash - EST8889", 3000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Chefs menu 10€ in Töölön Sävel - TS1231", 3500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Free Gym membership in Fitness 24/7 - F1223", 4000, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Exit room game for 1-6 people only 9€ in Exit Room Helsinki - ER5582", 4500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Free bucket from Tokmanni - FB9942", 5000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free coffee from the Metropolia Unicafe", "MUC123", 30, 0, 0, db, contentValues);
+        this.prePopulateDatabase("50% off from Luhta winter jackets from the Intersport", "IL912", 40, 0, 0, db, contentValues);
+        this.prePopulateDatabase("25% off from any food you order in Amarillo", "A3139", 1500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Helsingin Sanomat for 6 months only 20,00€", "HS0900", 2000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Mens haircut only 12€ in Style Workshop Kruununhaka", "SWK2922", 2500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free car wash in Espoon Starwash", "EST8889", 3000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Chefs menu 10€ in Töölön Sävel", "TS1231", 3500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free Gym membership in Fitness 24/7", "F1223", 4000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Exit room game for 1-6 people only 9€ in Exit Room Helsinki", "F1223", 4500, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free bucket from Tokmanni", "FB9942", 5000, 0, 0, db, contentValues);
     }
 
     @Override
@@ -52,12 +56,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    private void prePopulateDatabase (String reward, Integer goal, Integer currentStep, Integer speed, SQLiteDatabase db, ContentValues contentValues) {
-        contentValues.put(COL_2, reward);
-        contentValues.put(COL_3, goal);
-        contentValues.put(COL_4, currentStep);
-        contentValues.put(COL_5, speed);
-        contentValues.put(COL_6, false);
+    private void prePopulateDatabase (String reward, String reward_code, Integer goal, Integer currentStep, Integer speed, SQLiteDatabase db, ContentValues contentValues) {
+        contentValues.put(COL_REWARD, reward);
+        contentValues.put(COL_REWARD_CODE, reward_code);
+        contentValues.put(COL_GOAL, goal);
+        contentValues.put(COL_CURRENT_STEP, currentStep);
+        contentValues.put(COL_SPEED, speed);
+        contentValues.put(COL_IS_COMPLETED, 0);
 
         db.insert(TABLE_NAME, null, contentValues);
         contentValues.clear();
@@ -66,10 +71,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean insertData(String reward, Integer goal, Integer currentStep, Integer speed) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, reward);
-        contentValues.put(COL_3, goal);
-        contentValues.put(COL_4, currentStep);
-        contentValues.put(COL_5, speed);
+        contentValues.put(COL_REWARD, reward);
+        contentValues.put(COL_GOAL, goal);
+        contentValues.put(COL_CURRENT_STEP, currentStep);
+        contentValues.put(COL_SPEED, speed);
         long result = db.insert(TABLE_NAME, null, contentValues);
 
         if (result == -1) {
@@ -99,9 +104,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateCurrentStep (String id, Integer currentStep) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1, id);
-        contentValues.put(COL_4, currentStep);
-        db.update(TABLE_NAME, contentValues, COL_1 + " = ?", new String[] {id});
+        contentValues.put(COL_ID, id);
+        contentValues.put(COL_CURRENT_STEP, currentStep);
+        db.update(TABLE_NAME, contentValues, COL_ID + " = ?", new String[] {id});
+        db.close();
         return true;
     }
 
@@ -112,12 +118,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @return the boolean value indicating if the update was successful.
      */
-    public Boolean updateIsCompleted (String id, Boolean value) {
+    public Boolean updateIsCompleted (String id, int value) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1, id);
-        contentValues.put(COL_6, value);
-        db.update(TABLE_NAME, contentValues, COL_1 + " = ?", new String[] {id});
+        contentValues.put(COL_ID, id);
+        contentValues.put(COL_IS_COMPLETED, value);
+        db.update(TABLE_NAME, contentValues, COL_ID + " = ?", new String[] {id});
+        db.close();
         return true;
     }
 
@@ -131,9 +138,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateSpeed (String id, double speed) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1, id);
-        contentValues.put(COL_5, speed);
-        db.update(TABLE_NAME, contentValues, COL_1 + " = ?", new String[] {id});
+        contentValues.put(COL_ID, id);
+        contentValues.put(COL_SPEED, speed);
+        db.update(TABLE_NAME, contentValues, COL_ID + " = ?", new String[] {id});
+        db.close();
         return true;
     }
 
@@ -143,7 +151,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getDataById (String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_1 + " = ?", new String[]{id});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?", new String[]{id});
+        return cursor;
+    }
+
+    /*
+     * Get all data from the database based on the isCompleted and return a {@link Cursor} over the result set.
+     * @return A {@link Cursor} object, which is positioned before the first entry.
+     */
+    public Cursor getDataByIsCompleted () {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_IS_COMPLETED + " = ?", new String[]{"1"});
         return cursor;
     }
 
@@ -151,10 +169,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int currentStep;
         Cursor cursor = this.getDataById(id);
         if (cursor.moveToFirst()) {
-            currentStep = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_4));
+            currentStep = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_CURRENT_STEP));
         } else {
             currentStep = 0;
         }
+        cursor.close();
         return currentStep;
     }
 
@@ -162,10 +181,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int speed;
         Cursor cursor = this.getDataById(id);
         if (cursor.moveToFirst()) {
-            speed = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_5));
+            speed = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_SPEED));
         } else {
             speed = 0;
         }
+        cursor.close();
         return speed;
     }
 
@@ -173,11 +193,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int goal;
         Cursor cursor = this.getDataById(id);
         if (cursor.moveToFirst()) {
-            goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_3));
+            goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_GOAL));
         } else {
             goal = 0;
         }
+        cursor.close();
         return goal;
+    }
+
+    public String getReward (String id) {
+         String reward;
+        Cursor cursor = this.getDataById(id);
+        if (cursor.moveToFirst()) {
+            reward = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_REWARD));
+        } else {
+            reward = null;
+        }
+        cursor.close();
+        return reward;
+    }
+
+    public String getRewardCode (String id) {
+        String code;
+        Cursor cursor = this.getDataById(id);
+        if (cursor.moveToFirst()) {
+            code = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_REWARD_CODE));
+        } else {
+            code = null;
+        }
+        cursor.close();
+        return code;
     }
 
 

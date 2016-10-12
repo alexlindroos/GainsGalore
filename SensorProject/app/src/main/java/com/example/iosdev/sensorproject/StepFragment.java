@@ -2,10 +2,8 @@ package com.example.iosdev.sensorproject;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -22,12 +20,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import static android.content.ContentValues.TAG;
-import static android.content.Context.MODE_PRIVATE;
 
 
 /*
@@ -53,7 +47,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     private int currentSteps,maxSpeed;
     private String reward;
     private int goal;
-    private boolean isCompleted;
+    private int isCompleted;
     private DatabaseHelper db;
     private String _id = MainActivity.ID;
 
@@ -67,25 +61,26 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         StringBuffer buffer = new StringBuffer();
 
         if (cursor.moveToFirst()) {
-            currentSteps = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_4));
-            goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_3));
-            isCompleted = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_6)) != 0;
-            reward = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_2));
-
+            currentSteps = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_CURRENT_STEP));
+            goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_GOAL));
+            isCompleted = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_IS_COMPLETED));
+            reward = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_REWARD));
 
             buffer.append("id: " + cursor.getString(0) + "\n");
             buffer.append("reward: " + cursor.getString(1) + "\n");
             buffer.append("goal: " + goal + "\n");
             buffer.append("current_step: " + currentSteps + "\n");
             buffer.append("speed: " + maxSpeed + "\n");
+            buffer.append("CODE: " + cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_REWARD_CODE)) + "\n");
             buffer.append("isCompleted: " + isCompleted + "\n\n");
 
-
+            cursor.close();
         } else {
             db.showMessage("Error: ", "No data", getContext());
         }
 
         db.showMessage("This is for debug only: ", buffer.toString(), getContext());
+
     }
 
 
@@ -218,7 +213,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
         } else if (currentSteps >= goal){
 
-            isCompleted = true;
+            isCompleted = 1;
             db.updateIsCompleted(MainActivity.ID, isCompleted);
 
             Log.d(TAG, "onSensorChanged: ELSE " + currentSteps + " / " + goal + "  " + MainActivity.ID);

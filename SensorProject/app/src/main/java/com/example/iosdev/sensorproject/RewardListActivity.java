@@ -31,7 +31,7 @@ public class RewardListActivity extends AppCompatActivity{
 
     private void populateRewardListView () {
         Cursor cursor = mydb.getAllData();
-        String[] fromFieldNames = new String[] {DatabaseHelper.COL_2, DatabaseHelper.COL_3, DatabaseHelper.COL_4};
+        String[] fromFieldNames = new String[] {DatabaseHelper.COL_REWARD, DatabaseHelper.COL_GOAL, DatabaseHelper.COL_CURRENT_STEP};
         int[] toViewsIds = new int[] {R.id.textView_reward_description, R.id.textView_goal, R.id.textView_completion};
         SimpleCursorAdapter myCursorAdapter;
         myCursorAdapter = new SimpleCursorAdapter(getBaseContext(), R.layout.reward_single_row, cursor, fromFieldNames, toViewsIds, 0);

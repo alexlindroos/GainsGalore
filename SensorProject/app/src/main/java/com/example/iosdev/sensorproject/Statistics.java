@@ -3,31 +3,22 @@ package com.example.iosdev.sensorproject;
 import android.bluetooth.BluetoothDevice;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,7 +66,7 @@ public class Statistics extends AppCompatActivity implements ServiceConnection,
             //Getting the intent extras and step values from stepfragment
             Intent intent = getIntent();
             int stepvalue = intent.getIntExtra("cSteps",0);
-            double speedvalue = cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COL_5));
+            double speedvalue = cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COL_SPEED));
 
             step = (TextView) findViewById(R.id.steps);
             distance = (TextView) findViewById(R.id.distance);
