@@ -15,8 +15,6 @@
         <ProgressBar
             android:id="@+id/circular_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_height="289dp"
-            android:layout_marginTop="30dp"
             android:indeterminate="false"
             android:max="100"
             android:progress="1"
@@ -25,7 +23,9 @@
             android:focusable="false"
             android:layout_gravity="center_horizontal|center"
             android:layout_width="match_parent"
-            android:layout_weight="0.51" />
+            android:layout_weight="0.51"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 
@@ -35,44 +35,55 @@
         android:id="@+id/btnStatistics"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_width="147dp"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="60dp"
-        android:drawableLeft="@drawable/ic_timeline_black_24dp"
-        style="@style/Widget.AppCompat.Button.Colored"/>
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_timeline_white"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="190dp" />
 
     <Button
         android:text="@string/btnDiscounts"
-        android:layout_width="147dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnDiscounts"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/btnStatistics"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="60dp"
-        android:drawableLeft="@drawable/ic_local_offer_black_24dp"
-        style="@style/Widget.AppCompat.Button.Colored"/>
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_local_offer_white"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="190dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Steps"
         android:id="@+id/tv"
-        android:textSize="30dp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal|center"
         android:textColor="@color/white"
-        />
+        android:layout_marginBottom="60dp"
+        android:textSize="20dp" />
 
     <Button
         android:text="Choose your activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="60dp"
         android:id="@+id/btnRewards"
-        android:drawableLeft="@drawable/ic_directions_walk_black_24dp"
+        android:drawableLeft="@drawable/ic_directions_walk_white"
         style="@style/Widget.AppCompat.Button.Colored"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reward"
+        android:id="@+id/rewardview"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal|center"
+        android:textColor="@color/white"
+        android:layout_weight="0.51"
+        android:layout_marginBottom="90dp" />
 
 
 </FrameLayout>

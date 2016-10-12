@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_2 +" TEXT, "
                 + COL_3 + " INTEGER, "
                 + COL_4 + " INTEGER, "
-                + COL_5 + " INTEGER, "
+                + COL_5 + " DOUBLE, "
                 + COL_6 + " BOOLEAN)");
         ContentValues contentValues = new ContentValues();
         this.prePopulateDatabase("Free coffee from the Metropolia Unicafe - MUC123", 30, 0, 0, db, contentValues);
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.prePopulateDatabase("25% off from any food you order in Amarillo - A3139", 1500, 0, 0, db, contentValues);
         this.prePopulateDatabase("Helsingin Sanomat for 6 months only 20,00€ - HS0900", 2000, 0, 0, db, contentValues);
         this.prePopulateDatabase("Mens haircut only 12€ in Style Workshop Kruununhaka - SWK2922", 2500, 0, 0, db, contentValues);
-        this.prePopulateDatabase("Free car wash in Koskelan Autopesu - KAP8889", 3000, 0, 0, db, contentValues);
+        this.prePopulateDatabase("Free car wash in Espoon Starwash - EST8889", 3000, 0, 0, db, contentValues);
         this.prePopulateDatabase("Chefs menu 10€ in Töölön Sävel - TS1231", 3500, 0, 0, db, contentValues);
         this.prePopulateDatabase("Free Gym membership in Fitness 24/7 - F1223", 4000, 0, 0, db, contentValues);
         this.prePopulateDatabase("Exit room game for 1-6 people only 9€ in Exit Room Helsinki - ER5582", 4500, 0, 0, db, contentValues);
@@ -128,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @return the boolean value indicating if the update was successful.
      */
-    public Boolean updateSpeed (String id, int speed) {
+    public Boolean updateSpeed (String id, double speed) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, id);

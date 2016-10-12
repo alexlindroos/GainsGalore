@@ -8,7 +8,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="metawear">MetaWear</string>
-    <string name="no_metawear_connected">Connect Metawear sensor to measure your heartrate</string>
+    <string name="no_metawear_connected">Connect your Metawear sensor to measure heartrate.</string>
     <string name="metawear_connected">Metawear Connected</string>
     <string name="metawear_syncing">Metawear Syncing</string>
     <string name="heart_rate">Heart Rate</string>

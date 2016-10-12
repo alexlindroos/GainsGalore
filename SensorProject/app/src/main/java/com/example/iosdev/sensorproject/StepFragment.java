@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
@@ -45,10 +47,11 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
     String stepsTaken = "Steps: ";
     static String ARG_PAGE_NUMBER = "page_number";
     ProgressBar mprogressBar;
-    public TextView txt;
+    public TextView txt,rdview;
     public Button btnDiscounts, btnStatistics, btnRewards;
 
-    private int currentSteps;
+    private int currentSteps,maxSpeed;
+    private String reward;
     private int goal;
     private boolean isCompleted;
     private DatabaseHelper db;
@@ -67,12 +70,14 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
             currentSteps = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_4));
             goal = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_3));
             isCompleted = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_6)) != 0;
+            reward = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_2));
+
 
             buffer.append("id: " + cursor.getString(0) + "\n");
             buffer.append("reward: " + cursor.getString(1) + "\n");
             buffer.append("goal: " + goal + "\n");
             buffer.append("current_step: " + currentSteps + "\n");
-            buffer.append("speed: " + cursor.getInt(4) + "\n");
+            buffer.append("speed: " + maxSpeed + "\n");
             buffer.append("isCompleted: " + isCompleted + "\n\n");
 
 
@@ -96,6 +101,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
 
 
         txt = (TextView) rootView.findViewById(R.id.tv);
+        rdview = (TextView) rootView.findViewById(R.id.rewardview);
         sm = (SensorManager) this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
         //stepCounter = sm.getSensorList(Sensor.TYPE_STEP_COUNTER).get(0);
         stepDetector = sm.getSensorList(Sensor.TYPE_STEP_DETECTOR).get(0);
@@ -104,6 +110,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         btnStatistics = (Button) rootView.findViewById(R.id.btnStatistics);
         btnRewards = (Button) rootView.findViewById(R.id.btnRewards);
 
+        rdview.setText(reward);
         txt.setText(stepsTaken + currentSteps);
         btnDiscounts.setOnClickListener(this);
         btnStatistics.setOnClickListener(this);
@@ -276,6 +283,7 @@ public class StepFragment extends Fragment implements SensorEventListener, View.
         }else if (id == R.id.btnStatistics) {
             Intent statIntent = new Intent(StepFragment.this.getActivity(), Statistics.class);
             statIntent.putExtra("cSteps",currentSteps);
+            statIntent.putExtra("maxSpeed",maxSpeed);
             startActivity(statIntent);
         } else if (id == R.id.btnRewards) {
             Intent rewardsIntent = new Intent(StepFragment.this.getActivity(), RewardListActivity.class);

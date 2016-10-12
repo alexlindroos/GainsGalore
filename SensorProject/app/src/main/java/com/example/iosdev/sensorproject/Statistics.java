@@ -2,6 +2,7 @@ package com.example.iosdev.sensorproject;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -57,27 +58,34 @@ public class Statistics extends AppCompatActivity implements ServiceConnection,
         private boolean reconnecting = false;
         private final String HEART_RATE_SENSOR_FRAGMENT_KEY = "heart_rate_sensor_key";
         private final String MAC_ADDRESS = "MAC_ADDRESS";
-        public TextView step,distance;
+        public TextView step,distance,speed;
         double conversion = 0.762;
         double d;
+        private int maxSpeed;
+        private DatabaseHelper db;
 
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.testheartrate);
-
+            db = new DatabaseHelper(getApplicationContext());
+            Cursor cursor = db.getDataById(MainActivity.ID);
+            cursor.moveToFirst();
             //Getting the intent extras and step values from stepfragment
             Intent intent = getIntent();
-            int value = intent.getIntExtra("cSteps",0);
+            int stepvalue = intent.getIntExtra("cSteps",0);
+            double speedvalue = cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COL_5));
 
             step = (TextView) findViewById(R.id.steps);
             distance = (TextView) findViewById(R.id.distance);
+            speed = (TextView) findViewById(R.id.speed);
 
-            step.setText(Integer.toString(value));
+            step.setText(Integer.toString(stepvalue));
+            speed.setText(Double.toString(speedvalue));
 
             //Converting steps to meters
-            d = value * conversion;
+            d = stepvalue * conversion;
             distance.setText(Double.toString(d));
 
             sharedPreferences = getApplicationContext().getSharedPreferences("com.mbientlab.heartRateMonitor", 0); // 0 - for private mode
