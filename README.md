@@ -1,4 +1,2 @@
 # AndroidProject
-Team repository for Android sensor project. Collaborators: Alex Lindroos, Thanh Binh Tran, Antti Valkonen
-
-asd
+Android application that uses internal and external sensors. Made in Metropolia University of Applied Sciences. By: Alex Lindroos, Antti Valkonen and Thanh Binh Tran
